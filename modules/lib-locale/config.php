@@ -2,12 +2,12 @@
 /**
  * Module lib-locale config
  * @package lib-locale
- * @version 0.0.1
+ * @version 0.0.2
  */
 
 return [
     '__name' => 'lib-locale',
-    '__version' => '0.0.1',
+    '__version' => '0.0.2',
     '__git' => 'git@github.com:getphun/lib-locale.git',
     '__license' => 'MIT',
     '__author' => [
@@ -20,11 +20,7 @@ return [
         'modules/lib-locale' => ['install', 'update', 'remove']
     ],
     '__dependencies' => [
-        'required' => [
-            [
-                'core' => null
-            ]
-        ],
+        'required' => [],
         'optional' => []
     ],
     'autoload' => [
