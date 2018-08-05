@@ -1,9 +1,4 @@
 <?php
-/**
- * Module lib-locale config
- * @package lib-locale
- * @version 0.0.2
- */
 
 return [
     '__name' => 'lib-locale',
@@ -16,8 +11,9 @@ return [
         'website' => 'https://iqbalfn.com/'
     ],
     '__files' => [
-        'etc/locale' => ['install', 'remove'],
-        'modules/lib-locale' => ['install', 'update', 'remove']
+        'etc/locale' => ['install','remove'],
+        'etc/cache/locale' => ['install','remove'],
+        'modules/lib-locale' => ['install','update','remove']
     ],
     '__dependencies' => [
         'required' => [],
@@ -31,7 +27,15 @@ return [
             ]
         ],
         'files' => [
-            'modules/lib-locale/helper/locale.php' => true
+            'modules/lib-locale/helper/locale.php' => TRUE
+        ]
+    ],
+
+    'cliApp' => [
+        'callback' => [
+            'reconfig' => [
+                'LibLocale\\Library\\Config::reconfig' => true
+            ]
         ]
     ]
 ];

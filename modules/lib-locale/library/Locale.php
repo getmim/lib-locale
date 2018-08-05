@@ -14,54 +14,17 @@ class Locale
     private static $locale;
     private static $keys = [];
 
-    private static function getLocaleDir(string $locale, string $base=''): string{
-        $path = BASEPATH . '/etc/locale/';
-        $path.= $locale;
-        $path.= '/' . $base;
-        return chop($path, '/');
+    private static function getLocaleFile(string $locale): string{
+        $path = BASEPATH . '/etc/cache/locale/';
+        $path.= $locale . '.php';
+        return $path;
     }
 
     private static function loadLocale(string $locale): bool{
-        $trans = self::loadLocaleRec($locale);
-        if(!$trans)
+        $locale_file = self::getLocaleFile($locale);
+        if(!is_file($locale_file))
             return false;
-        return !!(self::$keys[$locale] = $trans);
-    }
-
-    private static function loadLocaleRec(string $locale, string $base=''): ?array{
-        $result = [];
-        $locale_dir = self::getLocaleDir($locale, $base);
-        $lang_base = str_replace('/', '.', $base);
-
-        $files = Fs::scan($locale_dir);
-        foreach($files as $file){
-            if($file === '.gitkeep')
-                continue;
-
-            $file_abs = $locale_dir . '/' . $file;
-            $key_base = $lang_base ? $lang_base . '.' : '';
-
-            if(is_file($file_abs)){
-                if(substr($file, -4) !== '.php')
-                    continue;
-                $file_base = basename($file, '.php');
-
-                $file_langs = include $file_abs;
-                foreach($file_langs as $key => $value){
-                    $main_key_base = $key_base . $key;
-                    $key_base.= $file_base . '.' . $key;
-
-                    $result[$key_base] = $value;
-                    if($file_base === 'main')
-                        $result[$main_key_base] = $value;
-                }
-            }elseif(is_dir($file_abs)){
-                $res = self::loadLocaleRec($locale, trim($base . '/' . $file, '/'));
-                $result = array_merge($result, $res);
-            }
-        }
-
-        return $result;
+        return !!(self::$keys[$locale] = include $locale_file);
     }
 
     static function getLocale(): ?string{
@@ -80,16 +43,16 @@ class Locale
             foreach($known_locales as $index => $locales){
                 foreach($locales as $locale){
                     if(!$index){
-                        $locale_dir = self::getLocaleDir($locale);
-                        if(is_dir($locale_dir)){
-                            self::$locale = $locale;
+                        $locale_file = self::getLocaleFile($locale);
+                        if(is_file($locale_file)){
+                            self::$locale = basename($locale, '.php');
                             break 2;
                         }
                     }else{
-                        $locale_dirs = self::getLocaleDir($locale . '-*');
-                        $locale_dirs = glob($locale_dirs);
-                        if($locale_dirs){
-                            self::$locale = basename($locale_dirs[0]);
+                        $locale_files = self::getLocaleFile($locale . '-*');
+                        $locale_files = glob($locale_files);
+                        if($locale_files){
+                            self::$locale = basename($locale_files[0], '.php');
                             break 2;
                         }
                     }
@@ -97,12 +60,14 @@ class Locale
             }
 
             if(!self::$locale){
-                $locale_dir = self::getLocaleDir('');
+                $locale_dir = dirname(self::getLocaleFile('_tmp_'));
                 $locales = Fs::scan($locale_dir);
                 foreach($locales as $locale){
+                    if(substr($locale, -4) !== '.php')
+                        continue;
                     $locale_abs = $locale_dir . '/' . $locale;
-                    if(is_dir($locale_abs)){
-                        self::$locale = $locale;
+                    if(is_file($locale_abs)){
+                        self::$locale = basename($locale, '.php');
                         break;
                     }
                 }
@@ -117,8 +82,11 @@ class Locale
     }
 
     static function translate(string $key, array $params=[], string $locale=null): string{
-        if(!$locale)
+        if(!$locale){
             $locale = self::getLocale();
+            if(!$locale)
+                trigger_error('No locale to use, please try run `mim app config`');
+        }
 
         if(!isset(self::$keys[$locale])){
             if(!self::loadLocale($locale))
