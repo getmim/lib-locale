@@ -2,6 +2,9 @@
 
 
 Library yang menyediakan translasi suatu teks berdasarkan dictionary.
+Semua translasi di cache di folder `etc/cache/locale`, jika melakukan
+perubahan pada locale file di `etc/locale/*`, pastikan menjalankan perintah
+`mim app config` di folder aplikasi untuk meregenerasi cache locale.
 
 ## Instalasi
 
@@ -14,7 +17,7 @@ mim app install lib-locale
 ## Penggunaan
 
 Module ini mendaftarkan satu fungsi global dengan nama `lang` yang bisa diakses
-darimana saja untuk melakukan transalasi.
+darimana saja untuk melakukan translasi.
 
 ### lang(string $key, array $params=[], string $locale=null): string
 
@@ -39,7 +42,7 @@ Semua translasi suatu locale disimpan di folder `etc/locale/[locale]/`. Umumnya,
 file translasi adalah `main.php`. Tapi nama file yang lain tentu bisa digunakan dengan
 ketentuan nama file harus digunakan di key translasi. Folder ini juga bisa menyimpan
 subfolder dan subfiles, seperti perbedaan nama file, masing-masing folder juga harus
-disebutkan pada key transalsi yang dipisahkan dengan titik.
+disebutkan pada key translasi yang dipisahkan dengan titik.
 
 Sebagai contoh, untuk file translasi `etc/locale/en-US/form/error/general.php`, yang 
 berisi data seperti di bawah:

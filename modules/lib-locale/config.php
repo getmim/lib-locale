@@ -30,9 +30,8 @@ return [
             'modules/lib-locale/helper/locale.php' => TRUE
         ]
     ],
-
-    'cliApp' => [
-        'callback' => [
+    'callback' => [
+        'app' => [
             'reconfig' => [
                 'LibLocale\\Library\\Config::reconfig' => true
             ]
