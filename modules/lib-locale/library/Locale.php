@@ -96,6 +96,8 @@ class Locale
         if(!isset(self::$keys[$locale][$key]))
             return $key;
 
+        $params = array_flatten($params);
+
         $text = self::$keys[$locale][$key];
         foreach($params as $pkey => $pval)
             $text = str_replace('(:' . $pkey . ')', $pval, $text);
