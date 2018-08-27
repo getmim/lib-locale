@@ -24,6 +24,10 @@ return [
             'LibLocale\\Library' => [
                 'type' => 'file',
                 'base' => 'modules/lib-locale/library'
+            ],
+            'LibLocale\\Formatter' => [
+                'type' => 'file',
+                'base' => 'modules/lib-locale/formatter'
             ]
         ],
         'files' => [
@@ -34,6 +38,15 @@ return [
         'app' => [
             'reconfig' => [
                 'LibLocale\\Library\\Config::reconfig' => true
+            ]
+        ]
+    ],
+
+    'libFormatter' => [
+        'handlers' => [
+            'locale' => [
+                'handler' => 'LibLocale\\Formatter\\Locale::translate',
+                'collective' => false
             ]
         ]
     ]

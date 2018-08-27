@@ -64,3 +64,47 @@ $text = lang('form.error.general.required', ['name'=>'username'], 'en-US');
 Nilai variable `(:name)` diambil dari parameter kedua fungsi ini.
 
 Jika nama file adalah `main.php`, maka key `main` tidak perlu ada pada key translasi.
+
+## Formatter
+
+Jika library `lib-formatter` terpasang, maka module ini akan menambahkan satu formatter
+dengan nama `locale`.
+
+### locale
+
+Mentranslasi nilai properti object sesuai dengan konfigurasi locale.
+
+```php
+'field' => [
+    'type' => 'locale',
+    'locale' => [
+        'params' => [
+            'name' => '$name',
+            'fullname' => '$user.fullname',
+            'prop' => 'prop'
+        ]
+    ]
+]
+```
+
+Nilai properti `locale.params` akan ditambahkan ke fungsi `lang` sebagai params.
+
+Nilai properti object yang akan di translasi diharapkan berbentuk seperti di bawah:
+
+```
+'field' => (object)[
+    'default' => [
+        'text' => Default translation if locale not found',
+        'locale' => 'en-US'
+    ],
+    'locale' => [
+        'key' => 'form.error.general.required',
+        'params' => [
+            'name' => 'username'
+        ]
+    ]
+];
+```
+
+Jika translasi dengan dari nilai `locale.key` tidak ditemukan, maka nilai
+dari `default.text` akan digunakan.
