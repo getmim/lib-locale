@@ -21,7 +21,6 @@ class Locale
         $loc_params = [];
 
         // value source
-        $default = $value->default;
         $locale  = $value->locale;
 
         $loc_key  = $locale->key;
@@ -45,8 +44,6 @@ class Locale
         }
 
         $result = lang($loc_key, $loc_params);
-        if($result == $loc_key)
-            return $default->text;
         return $result;
     }
 }
