@@ -37,7 +37,7 @@ class Locale
 
         foreach($loc_params as $key => $val){
             if(substr($val, 0, 1) === '$'){
-                $loc_params[$key] = get_prop_value($object, substr($val,1));
+                $loc_params[$key] = (string)get_prop_value($object, substr($val,1));
             }else{
                 $loc_params[$key] = $val;
             }
