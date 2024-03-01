@@ -2,7 +2,7 @@
 /**
  * Translation library
  * @package lib-locale
- * @version 0.0.2
+ * @version 0.0.4
  */
 
 namespace LibLocale\Library;
@@ -99,8 +99,9 @@ class Locale
         $params = array_flatten($params);
 
         $text = self::$keys[$locale][$key];
-        foreach($params as $pkey => $pval)
-            $text = str_replace('(:' . $pkey . ')', $pval, $text);
+        foreach($params as $pkey => $pval) {
+            $text = str_replace('(:' . $pkey . ')', (string)$pval, (string)$text);
+        }
 
         return $text;
     }

@@ -2,7 +2,7 @@
 
 return [
     '__name' => 'lib-locale',
-    '__version' => '0.0.3',
+    '__version' => '0.0.4',
     '__git' => 'git@github.com:getphun/lib-locale.git',
     '__license' => 'MIT',
     '__author' => [
