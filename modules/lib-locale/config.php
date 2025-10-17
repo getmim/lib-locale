@@ -2,7 +2,7 @@
 
 return [
     '__name' => 'lib-locale',
-    '__version' => '0.0.4',
+    '__version' => '0.0.5',
     '__git' => 'git@github.com:getphun/lib-locale.git',
     '__license' => 'MIT',
     '__author' => [
@@ -31,7 +31,7 @@ return [
             ]
         ],
         'files' => [
-            'modules/lib-locale/helper/locale.php' => TRUE
+            'modules/lib-locale/helper/locale.php' => true
         ]
     ],
     'callback' => [
